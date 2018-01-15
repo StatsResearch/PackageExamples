@@ -93,6 +93,10 @@ We can now check that.
 VerifyMD5(full.path = full.path, '48F4D3FC25742F3DCFD9752E3AF36D81')
 ```
 
+
+We will add more tests soon
+
+
 ```{r}
 sessionInfo()
 ```
