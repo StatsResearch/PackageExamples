@@ -1,0 +1,99 @@
+---
+title: "PackageExamples"
+author: "Rob Donald"
+date: "`r format(Sys.time(), '%A %d %B %Y, %H:%M')`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+params:
+  dataprep: true
+header-includes: \usepackage{comment}
+---
+<style>
+pre {
+  overflow-x: auto;
+}
+pre code {
+  word-wrap: normal;
+  white-space: pre;
+}
+</style>
+
+
+# Introduction
+
+This is a .Rmd to provide some examples of using packages I have on GitHub
+
++ RobsRUtils
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,fig.height=8,fig.width=12)
+options(width=1500)
+```
+
+# Cross platform operation
+
+Demo the techniques I use to cope with Windows support.
+
+```{r system_setup, echo=FALSE}
+os.type<-Sys.info()[1]
+if(os.type == 'Windows'){TLC_Root<-'C:/PostDocStuff'}else{TLC_Root<-'/Users/rob/PostDocStuff/teaching/RStuff'}
+```
+
+# Conditional markdown text
+
+`r if(!params$dataprep) {"\\begin{comment}"}`
+## Libraries
+`r if(!params$dataprep) {"\\end{comment}"}`
+
+```{r library_setup,include=params$dataprep}
+suppressMessages({suppressWarnings({
+    library(dplyr)
+    library(RobsRUtils)
+})})
+```
+
+# Background
+
+First tests are for the MD5 stuff.
+
+
+```{r}
+col1 <- c(1,2,3)
+col2 <- c(4,5,6)
+status <- c('Pass','Pass','Fail')
+
+df <- data_frame(col1,col2,status)
+
+output.dir <- './data'
+dir.create(path = output.dir)
+
+output.filename <- 'Test_Text_File.txt'
+
+full.path <- paste0(output.dir,'/',output.filename)
+
+write.csv(df,file = full.path, row.names = FALSE)
+```
+
+
+We can now examine the file if you want to see the contents
+
+We'll now generate an MD5 file
+```{r}
+MD5 <- MD5_thisFile(filename = full.path)
+MD5
+```
+
+We can now check that.
+
+```{r}
+VerifyMD5(full.path = full.path, '48F4D3FC25742F3DCFD9752E3AF36D81')
+```
+
+```{r}
+sessionInfo()
+```
+
